@@ -1,0 +1,24 @@
+{
+  "name": "@itk-wasm/dam",
+  "version": "1.0.0",
+  "description": "Data Archive Manager",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/InsightSoftwareConsortium/dam.git"
+  },
+  "keywords": [
+    "data",
+    "testing",
+    "examples"
+  ],
+  "author": "Matt McCormick",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/InsightSoftwareConsortium/dam/issues"
+  },
+  "homepage": "https://github.com/InsightSoftwareConsortium/dam#readme"
+}
