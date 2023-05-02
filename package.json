@@ -2,7 +2,11 @@
   "name": "@itk-wasm/dam",
   "version": "1.0.0",
   "description": "Data Archive Manager",
-  "main": "index.js",
+  "type": "module",
+  "module": "./index.js",
+  "bin": {
+    "dam": "./cli.js"
+  },
   "scripts": {
     "test": "ava test/*.js"
   },
@@ -20,5 +24,12 @@
   "bugs": {
     "url": "https://github.com/InsightSoftwareConsortium/dam/issues"
   },
-  "homepage": "https://github.com/InsightSoftwareConsortium/dam#readme"
+  "homepage": "https://github.com/InsightSoftwareConsortium/dam#readme",
+  "dependencies": {
+    "commander": "^10.0.1",
+    "tar": "^6.1.13"
+  },
+  "devDependencies": {
+    "ava": "^5.2.0"
+  }
 }
