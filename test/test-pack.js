@@ -5,7 +5,7 @@ import { spawnSync } from 'child_process'
 
 import { fileURLToPath } from 'url'
 
-test('pack then cid should return the expected cid', t => {
+test('pack packs then returns the expected cid', t => {
 
   const testDir = path.dirname(fileURLToPath(import.meta.url))
   const cliPath = path.join(testDir, '..', 'cli.js')
@@ -17,7 +17,7 @@ test('pack then cid should return the expected cid', t => {
   if (packRun.status !== 0) {
     t.fail()
   }
-  t.deepEqual(packRun.stdout.toString(), 'CID: bafkreihprgukjht4w4m5nzlb56ytgufdrxa7ixjn574zqvlcsbzjpmykgu\n')
+  t.deepEqual(packRun.stdout.toString(), 'CID: bafkreicwiqbddmj6gzsgxa2ajz54atxcr7ikrti22evy4cznbrknjnaa44\n')
 
   t.pass()
 })

@@ -15,11 +15,6 @@ export async function pack(dir, archivePath) {
     file: archivePath,
   },
   [dir])
-
-  const rootCid = await cid(archivePath)
-  console.log(`CID: ${rootCid}`)
-
-  process.exit(0)
 }
 
 export async function cid(archivePath) {

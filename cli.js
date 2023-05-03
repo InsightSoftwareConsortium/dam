@@ -4,6 +4,22 @@ import { pack, cid, download } from "./index.js"
 
 import { Command, Option } from 'commander/esm.mjs'
 
+async function packDirectory(dir, archivePath) {
+  await pack(dir, archivePath)
+
+  const rootCid = await cid(archivePath)
+  console.log(`CID: ${rootCid}`)
+
+  process.exit(0)
+}
+
+async function printCid(archivePath) {
+  const rootCid = await cid(archivePath)
+  console.log(`CID: ${rootCid}`)
+
+  process.exit(0)
+}
+
 const program = new Command()
 
 program
@@ -14,7 +30,20 @@ program.command('pack')
   .description('pack contents of a data directory into a .tar.gz content archive')
   .argument('<dir>', 'input data directory')
   .argument('<archive>', 'path to the output .tar.gz archive')
-  .action(pack)
+  .action(packDirectory)
+
+program.command('cid')
+  .description('compute the content identifier (CID) for the .tar.gz content archive')
+  .argument('<archive>', 'path to the .tar.gz archive')
+  .action(printCid)
+
+program.command('download')
+  .description('verify local archive with provided cid or download and unpack if not present')
+  .argument('<dir>', 'output data directory')
+  .argument('<archive>', 'path to the local .tar.gz archive')
+  .argument('<cid>', 'expected cid')
+  .argument('<urls...>', 'one or more urls storing the archive')
+  .action(download)
 
 await program
   .parseAsync(process.argv)
