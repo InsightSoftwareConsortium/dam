@@ -1,3 +1,3 @@
-const expectedCid = 'bafkreifhfijngiqzqapj4nccq3d4qfyqoxnonvrats6jhs7mirhac2nzem'
+const expectedCid = 'bafkreif4zxl7igdpvsitgzbeiruonplgvuxwedhzsdrjz4hftbxfq3vfgi'
 
 export default expectedCid

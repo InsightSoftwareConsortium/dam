@@ -19,6 +19,7 @@ export async function pack(dir, archivePath) {
     gzip: { level: 9 },
     file: archivePath,
     C: dir,
+    mtime: new Date(),
   },
   ['.'])
 }
