@@ -1,0 +1,3 @@
+const expectedCid = 'bafkreifhfijngiqzqapj4nccq3d4qfyqoxnonvrats6jhs7mirhac2nzem'
+
+export default expectedCid

@@ -2,7 +2,7 @@
 
 import { pack, cid, download } from "./index.js"
 
-import { Command, Option } from 'commander/esm.mjs'
+import { Command } from 'commander/esm.mjs'
 
 async function packDirectory(dir, archivePath) {
   await pack(dir, archivePath)
@@ -16,6 +16,12 @@ async function packDirectory(dir, archivePath) {
 async function printCid(archivePath) {
   const rootCid = await cid(archivePath)
   console.log(`CID: ${rootCid}`)
+
+  process.exit(0)
+}
+
+export async function downloadData(dir, archivePath, cid, urls, options) {
+  await download(dir, archivePath, cid, urls, options)
 
   process.exit(0)
 }
@@ -43,7 +49,9 @@ program.command('download')
   .argument('<archive>', 'path to the local .tar.gz archive')
   .argument('<cid>', 'expected cid')
   .argument('<urls...>', 'one or more urls storing the archive')
-  .action(download)
+  .option('-r, --retries <retries>', 'download retries', parseInt)
+  .option('-v, --verbose', 'print status')
+  .action(downloadData)
 
 await program
   .parseAsync(process.argv)

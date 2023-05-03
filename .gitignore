@@ -2,3 +2,5 @@ node_modules/
 test/data.tar.gz
 test/pack.tar.gz
 test/cid.tar.gz
+test/download.tar.gz
+test/download-data/

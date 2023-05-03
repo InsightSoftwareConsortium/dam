@@ -5,10 +5,11 @@ import { spawnSync } from 'child_process'
 
 import { fileURLToPath } from 'url'
 
-test('pack packs then returns the expected cid', t => {
+import expectedCid from './support/expectedCid.js'
 
-  const testDir = path.dirname(fileURLToPath(import.meta.url))
-  const cliPath = path.join(testDir, '..', 'cli.js')
+test('pack packs then returns the expected cid', t => {
+  const testDir = 'test'
+  const cliPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'cli.js')
   const archivePath = path.join(testDir, 'pack.tar.gz')
   const packRun = spawnSync('node', [cliPath, 'pack', path.join(testDir, 'data'), archivePath], {
     env: process.env,
@@ -17,7 +18,7 @@ test('pack packs then returns the expected cid', t => {
   if (packRun.status !== 0) {
     t.fail()
   }
-  t.deepEqual(packRun.stdout.toString(), 'CID: bafkreicwiqbddmj6gzsgxa2ajz54atxcr7ikrti22evy4cznbrknjnaa44\n')
+  t.deepEqual(packRun.stdout.toString(), `CID: ${expectedCid}\n`)
 
   t.pass()
 })

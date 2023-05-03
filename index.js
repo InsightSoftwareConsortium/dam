@@ -1,8 +1,13 @@
 import fs from 'fs'
+import util from 'util'
+import stream from 'stream'
+const pipeline = util.promisify(stream.pipeline)
 
 import tar from 'tar'
 import { filesFromPaths } from 'files-from-path'
 import { createFileEncoderStream } from 'ipfs-car'
+
+import axios from 'axios'
 
 export async function pack(dir, archivePath) {
   if (!fs.existsSync(dir)) {
@@ -13,8 +18,9 @@ export async function pack(dir, archivePath) {
   await tar.c({
     gzip: { level: 9 },
     file: archivePath,
+    C: dir,
   },
-  [dir])
+  ['.'])
 }
 
 export async function cid(archivePath) {
@@ -31,6 +37,58 @@ export async function cid(archivePath) {
   return rootCid.toString()
 }
 
-export function download(urls, archivePath, cid, unpackDir) {
+export async function download(dir, archivePath, rootCid, urls, options = {}) {
+  const { retries = 3, verbose = false } = options
 
+  let needToDownload = false
+  if (!fs.existsSync(archivePath)) {
+    if (verbose) {
+      console.log('Data archive not found. Downloading...')
+    }
+    needToDownload = true
+  } else {
+    const currentCid = await cid(archivePath)
+    if (currentCid.trim() !== rootCid.trim()) {
+      console.log('Data archive does not match expected CID. Downloading...')
+      needToDownload = true
+    }
+  }
+
+  let downloadSucceeded = false
+  if (needToDownload) {
+    for (const url of urls) {
+      for (let retry = 0; retry < retries; retry++) {
+        if (verbose) {
+          console.log(`Downloading ${url}, attempt ${retry}...`)
+        }
+        const request = await axios.get(url, { responseType: 'stream' })
+        await pipeline(request.data, fs.createWriteStream(archivePath))
+        const currentCid = await cid(archivePath)
+        if (currentCid.trim() === rootCid.trim()) {
+          downloadSucceeded = true
+          break
+        }
+      }
+      if (downloadSucceeded) {
+        break
+      }
+    }
+  }
+
+  if (downloadSucceeded) {
+    if (verbose) {
+      console.log(`Unpacking ${archivePath} to ${dir}`)
+    }
+    try {
+      fs.mkdirSync(dir, { recursive: true })
+    } catch (err) {
+      if (err.code !== 'EEXIST') throw err
+    }
+    try {
+      await pipeline(fs.createReadStream(archivePath), tar.x({ C: dir }))
+    } catch (err) {
+      fs.rmSync(archivePath)
+      throw err
+    }
+  }
 }
