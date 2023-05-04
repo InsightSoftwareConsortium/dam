@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 import util from 'util'
 import stream from 'stream'
 const pipeline = util.promisify(stream.pipeline)
@@ -57,6 +58,11 @@ export async function download(dir, archivePath, rootCid, urls, options = {}) {
 
   let downloadSucceeded = false
   if (needToDownload) {
+    try {
+      fs.mkdirSync(path.dirname(archivePath), { recursive: true })
+    } catch (err) {
+      if (err.code !== 'EEXIST') throw err
+    }
     for (const url of urls) {
       for (let retry = 0; retry < retries; retry++) {
         if (verbose) {
