@@ -39,6 +39,8 @@ CID: bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
 Upload the *test/data.tar.gz* file to hosting services such as [web3.storage](https://web3.storage), GitHub Releases, AWS s3, a local http server, etc. For web3.storage, upload with the [`w3`](https://github.com/web3-storage/web3.storage) CLI:
 
 ```
+> npm install --global @web3-storage/w3
+> w3 token
 > w3 put --name dam-test-data --no-wrap test/data.tar.gz
 # Packed 1 file (0.0MB)
 # bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
