@@ -7,6 +7,7 @@ const pipeline = util.promisify(stream.pipeline)
 import tar from 'tar'
 import { filesFromPaths } from 'files-from-path'
 import { createFileEncoderStream } from 'ipfs-car'
+import decompress from 'decompress'
 
 import axios from 'axios'
 
@@ -92,7 +93,7 @@ export async function download(dir, archivePath, rootCid, urls, options = {}) {
       if (err.code !== 'EEXIST') throw err
     }
     try {
-      await pipeline(fs.createReadStream(archivePath), tar.x({ C: dir }))
+      await decompress(archivePath, dir)
     } catch (err) {
       fs.rmSync(archivePath)
       throw err

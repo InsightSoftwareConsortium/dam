@@ -1,3 +1,5 @@
 const expectedCid = 'bafkreif4zxl7igdpvsitgzbeiruonplgvuxwedhzsdrjz4hftbxfq3vfgi'
 
 export default expectedCid
+
+export const expectedBz2Cid = 'bafkreiathzap6v6qd3kckccrczs6pnfwa5bdsq4mumhxfs6n4mwgwmlrja'
