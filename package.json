@@ -7,6 +7,12 @@
   "bin": {
     "dam": "./cli.js"
   },
+  "exports": {
+    ".": {
+      "node": "./index.js",
+      "default": "./index.js"
+    }
+  },
   "scripts": {
     "test": "ava test/*.js"
   },
