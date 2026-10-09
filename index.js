@@ -4,7 +4,7 @@ import util from 'util'
 import stream from 'stream'
 const pipeline = util.promisify(stream.pipeline)
 
-import tar from 'tar'
+import * as tar from 'tar'
 import { filesFromPaths } from 'files-from-path'
 import { createFileEncoderStream } from 'ipfs-car'
 import decompress from 'decompress'
