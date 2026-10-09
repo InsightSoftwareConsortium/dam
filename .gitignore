@@ -5,3 +5,4 @@ test/cid.tar.gz
 test/download.tar.gz
 test/download.tar.bz2
 test/download-data/
+.serena/
