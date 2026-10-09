@@ -2,6 +2,7 @@ node_modules/
 test/data.tar.gz
 test/pack.tar.gz
 test/cid.tar.gz
+test/cli.tar.gz
 test/download.tar.gz
 test/download.tar.bz2
 test/download-data/
