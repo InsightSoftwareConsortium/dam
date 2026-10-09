@@ -17,7 +17,7 @@ test('download downloads the archive and verifies the cid', t => {
   if (fs.existsSync(archivePath)) {
     fs.rmSync(archivePath)
   }
-  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedCid, `https://w3s.link/ipfs/${expectedCid}`], {
+  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedCid, `https://itk.mypinata.cloud/ipfs/${expectedCid}`], {
     env: process.env,
     stdio: ['inherit', 'pipe', 'inherit'],
   })
@@ -36,7 +36,7 @@ test('download downloads a bz2 archive and verifies the cid', t => {
   if (fs.existsSync(archivePath)) {
     fs.rmSync(archivePath)
   }
-  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedBz2Cid, `https://w3s.link/ipfs/${expectedBz2Cid}`], {
+  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedBz2Cid, `https://itk.mypinata.cloud/ipfs/${expectedBz2Cid}`], {
     env: process.env,
     stdio: ['inherit', 'pipe', 'inherit'],
   })
