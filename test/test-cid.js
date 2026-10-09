@@ -16,7 +16,7 @@ test('cid subcommand should return the expected cid', t => {
   if (fs.existsSync(archivePath)) {
     fs.rmSync(archivePath)
   }
-  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedCid, `https://w3s.link/ipfs/${expectedCid}`], {
+  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', path.join(testDir, 'download-data'), archivePath, expectedCid, `https://itk.mypinata.cloud/ipfs/${expectedCid}`], {
     env: process.env,
     stdio: ['inherit', 'pipe', 'inherit'],
   })
