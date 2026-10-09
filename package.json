@@ -16,6 +16,7 @@
   "scripts": {
     "test": "ava test/*.js"
   },
+  "packageManager": "pnpm@12.10.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/InsightSoftwareConsortium/dam.git"
