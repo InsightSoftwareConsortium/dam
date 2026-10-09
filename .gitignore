@@ -6,3 +6,5 @@ test/download.tar.gz
 test/download.tar.bz2
 test/download-data/
 .serena/
+test/cli.tar.gz
+test/cli-data/
