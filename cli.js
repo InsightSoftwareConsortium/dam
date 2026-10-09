@@ -2,7 +2,7 @@
 
 import { pack, cid, download } from "./index.js"
 
-import { Command } from 'commander/esm.mjs'
+import { Command } from 'commander'
 
 async function packDirectory(dir, archivePath) {
   await pack(dir, archivePath)
