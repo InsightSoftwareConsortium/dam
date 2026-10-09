@@ -37,7 +37,7 @@
     "decompress": "^4.2.1",
     "files-from-path": "^1.0.0",
     "ipfs-car": "^1.0.0",
-    "tar": "^6.1.13"
+    "tar": "^7.5.22"
   },
   "devDependencies": {
     "ava": "^5.2.0"
