@@ -1,6 +1,7 @@
 import test from 'ava'
 
 import fs from 'fs'
+import os from 'os'
 import path from 'path'
 import { spawnSync } from 'child_process'
 
@@ -45,4 +46,27 @@ test('download downloads a bz2 archive and verifies the cid', t => {
   }
 
   t.pass()
+})
+
+test('download replaces an existing archive that does not match the cid', t => {
+  const cliPath = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'cli.js')
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'dam-download-'))
+  t.teardown(() => fs.rmSync(tmpDir, { recursive: true }))
+  const archivePath = path.join(tmpDir, 'download.tar.gz')
+  const outputDir = path.join(tmpDir, 'download-data')
+  fs.writeFileSync(archivePath, 'stale archive')
+
+  const downloadRun = spawnSync('node', [cliPath, 'download', '--verbose', outputDir, archivePath, expectedCid, `https://itk.mypinata.cloud/ipfs/${expectedCid}`], {
+    env: process.env,
+    stdio: ['inherit', 'pipe', 'inherit'],
+  })
+  t.is(downloadRun.status, 0)
+  t.regex(downloadRun.stdout.toString(), /Data archive does not match expected CID\. Downloading\.\.\./)
+
+  const cidRun = spawnSync('node', [cliPath, 'cid', archivePath], {
+    env: process.env,
+    stdio: ['inherit', 'pipe', 'inherit'],
+  })
+  t.is(cidRun.stdout.toString(), `CID: ${expectedCid}\n`)
+  t.true(fs.existsSync(path.join(outputDir, 'cthead1.png')))
 })

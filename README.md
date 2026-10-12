@@ -8,7 +8,7 @@ Data is stored in .tar.gz archives and can be hosted at multiple, redundant http
 
 - Download and unpack testing and example data .tar.gz archives
 - CLI for NPM scripts
-- Verify with an expected hash compatible with web3.storage
+- Verify with an expected IPFS content identifier (CID), reproducible across IPFS implementations with the [unixfs-v1-2025](https://specs.ipfs.tech/ipips/ipip-0499/) profile
 - Cache archive downloads based on the expected hash
 - Support for multiple storage urls
 - Automatic retries
@@ -33,27 +33,25 @@ Pack the current version of the data into a compressed archive:
 
 ```sh
 > dam pack test/data test/data.tar.gz
-CID: bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
+CID: bafkreibwa6fm266fgyxslebqz2we6l5a56akv2v5pj5ppi3cz2sxh4a4cm
 ```
 
-Upload the *test/data.tar.gz* file to hosting services such as [web3.storage](https://web3.storage), GitHub Releases, AWS s3, a local http server, etc. For web3.storage, upload with the [`w3`](https://github.com/web3-storage/web3.storage) CLI:
+Packing is reproducible: the same files always produce the same archive and CID, regardless of when, where, or by whom they are packed.
+
+Upload the *test/data.tar.gz* file to hosting services such as an IPFS pinning service, GitHub Releases, AWS s3, a local http server, etc.
+
+The CID is computed with the [IPIP-499](https://specs.ipfs.tech/ipips/ipip-0499/) `unixfs-v1-2025` profile (CIDv1, sha2-256, raw leaves, 1 MiB chunks, 1024 links per node), so IPFS implementations that use the same profile produce the same CID for the archive. For example, with [Kubo](https://github.com/ipfs/kubo) 0.40 or newer:
 
 ```
-> npm install --global @web3-storage/w3
-> w3 token
-> w3 put --name dam-test-data --no-wrap test/data.tar.gz
-# Packed 1 file (0.0MB)
-# bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
-⁂ Stored 1 file
-⁂ https://w3s.link/ipfs/bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
+> ipfs config profile apply unixfs-v1-2025
+> ipfs add test/data.tar.gz
+added bafkreibwa6fm266fgyxslebqz2we6l5a56akv2v5pj5ppi3cz2sxh4a4cm data.tar.gz
 ```
-
-Note the `--no-wrap` flag.
 
 In your NPM scripts, add
 
 ```sh
-> dam download -v test/data test/data.tar.gz bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy https://w3s.link/ipfs/bafkreibetv3747ysuplkqkwlomeaao3nk3uak7wtzgrgmrtvmah5jdyawy
+> dam download -v test/data test/data.tar.gz bafkreibwa6fm266fgyxslebqz2we6l5a56akv2v5pj5ppi3cz2sxh4a4cm https://w3s.link/ipfs/bafkreibwa6fm266fgyxslebqz2we6l5a56akv2v5pj5ppi3cz2sxh4a4cm
 ```
 
 If the data is stored at multiple locations, add all URLs to the end of the `download` subcommand.
